@@ -1,27 +1,34 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
-  const navbarCollapse = document.getElementById("navbarNav");
-  const navbarToggler = document.querySelector(".navbar-toggler");
+  // Menü toggle elemanlarını seç
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuLinks = mobileMenu.querySelectorAll("a");
 
-  document.addEventListener("click", function (e) {
-    if (
-      !navbarCollapse.contains(e.target) &&
-      !navbarToggler.contains(e.target)
-    ) {
-      if (navbarCollapse.classList.contains("show")) {
-        const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-        bsCollapse.hide();
-      }
-    }
+  // Menü açma/kapama fonksiyonu
+  function toggleMenu() {
+    mobileMenu.classList.toggle("open");
+  }
+
+  // Hamburger menü butonuna tıklanınca
+  menuToggle.addEventListener("click", toggleMenu);
+
+  // Menü öğelerine tıklanınca menüyü kapat
+  menuLinks.forEach((link) => {
+    link.addEventListener("click", toggleMenu);
   });
 
-  navLinks.forEach(function (link) {
-    link.addEventListener("click", function () {
-      if (navbarCollapse.classList.contains("show")) {
-        const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-        bsCollapse.hide();
-      }
-    });
+  // Sayfa herhangi bir yerine tıklanınca menüyü kapat
+  document.addEventListener("click", function (event) {
+    const isInsideMenu = mobileMenu.contains(event.target);
+    const isMenuToggle = menuToggle.contains(event.target);
+
+    if (
+      !isInsideMenu &&
+      !isMenuToggle &&
+      mobileMenu.classList.contains("open")
+    ) {
+      toggleMenu();
+    }
   });
 });
 
@@ -80,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   // AOS Animasyon Başlatma
   AOS.init({
-    duration: 800,
+    duration: 600,
     once: false,
     mirror: true,
   });
